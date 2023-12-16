@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+
+use App\Models\Material;
 
 class Category extends Model
 {
@@ -22,4 +25,12 @@ class Category extends Model
      * @var bool
      */
     public $timestamps = false;
+
+    /**
+     * Get the materials for the category.
+     */
+    public function materials(): HasMany
+    {
+        return $this->hasMany(Material::class, 'categoria_id');
+    }
 }
