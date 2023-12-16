@@ -25,4 +25,16 @@ class CategoryFactory extends Factory
             'actualizado_a' => now(),
         ];
     }
+
+    /**
+     * Indicate that the category is active.
+     */
+    public function active(): Factory
+    {
+        return $this->state(function (array $attributes) {
+            return [
+                'estado' => CategoryMaterialStatus::ACTIVE,
+            ];
+        });
+    }
 }
