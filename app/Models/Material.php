@@ -13,6 +13,15 @@ class Material extends Model
     use HasFactory;
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'stock_minimo' => 'integer',
+    ];
+
+    /**
      * The table associated with the model.
      *
      * @var string

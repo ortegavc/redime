@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Material;
 use App\Http\Requests\StoreMaterialRequest;
 use App\Http\Requests\UpdateMaterialRequest;
+use App\Http\Resources\MaterialResource;
+use App\Models\Material;
 
 class MaterialController extends Controller
 {
@@ -29,7 +30,7 @@ class MaterialController extends Controller
      */
     public function show(Material $material)
     {
-        //
+        return new MaterialResource($material);
     }
 
     /**
