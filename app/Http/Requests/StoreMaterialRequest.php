@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\CategoryMaterialStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreMaterialRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class StoreMaterialRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,9 @@ class StoreMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'estado' => ['required',Rule::enum(CategoryMaterialStatus::class)],
+            'nombre' => 'required|unique:materiales|max:30',
+            'categoria_id' => 'required|exists:App\Models\Category,id',
         ];
     }
 }
