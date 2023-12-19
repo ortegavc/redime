@@ -10,6 +10,6 @@ class MaterialService
 {
     public function create(Request $request): Material
     {
-        return Material::create($request->all());
+        return Material::create($request->validated());
     }
 }
