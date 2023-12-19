@@ -25,7 +25,9 @@ class StoreMaterialRequest extends FormRequest
     {
         return [
             'estado' => ['required',Rule::enum(CategoryMaterialStatus::class)],
+            'descripcion' => 'required',
             'nombre' => 'required|unique:materiales|max:30',
+            'stock_minimo' => 'required|numeric',
             'categoria_id' => 'required|exists:App\Models\Category,id',
         ];
     }
