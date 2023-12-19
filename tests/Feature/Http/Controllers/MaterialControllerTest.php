@@ -3,8 +3,8 @@
 namespace Tests\Feature\Http\Controllers;
 
 use App\Models\Category;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Testing\Fluent\AssertableJson;
 use Tests\TestCase;
 
 class MaterialControllerTest extends TestCase
@@ -24,8 +24,34 @@ class MaterialControllerTest extends TestCase
 
     public function test_validation_category_exist_in_db(): void
     {
-        $category = Category::factory()->create();
-        $response = $this->postJson('/api/materials', ['estado' => 'ACTIVO', 'nombre' => 'chuck', 'categoria_id' => $category->id]);
-        $response->assertStatus(200);
+        $response = $this->postJson('/api/materials', [
+            'estado' => 'ACTIVO',
+            'nombre' => fake()->word(),
+            'descripcion' => fake()->paragraph(),
+            'stock_minimo' => fake()->randomNumber(3, false),
+            'categoria_id' => 0, // Catgory zero will never exist, so it's perfect for this test
+        ]);
+        $response->assertStatus(422);
     }
+
+    public function test_store_material(): void
+    {
+        $category = Category::factory()->create();
+
+        $response = $this->postJson('/api/materials', [
+            'estado' => 'ACTIVO',
+            'nombre' => fake()->word(),
+            'descripcion' => fake()->paragraph(),
+            'stock_minimo' => fake()->randomNumber(3, false),
+            'categoria_id' => $category->id
+        ]);
+
+        $response->assertStatus(201);
+
+        $response->assertJson(fn (AssertableJson $json) =>
+            $json->has('data')
+                ->missing('message')
+        );
+    }
+
 }

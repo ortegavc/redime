@@ -6,6 +6,7 @@ use App\Http\Requests\StoreMaterialRequest;
 use App\Http\Requests\UpdateMaterialRequest;
 use App\Http\Resources\MaterialResource;
 use App\Models\Material;
+use App\Services\MaterialService;
 
 class MaterialController extends Controller
 {
@@ -20,9 +21,9 @@ class MaterialController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreMaterialRequest $request)
+    public function store(StoreMaterialRequest $request, MaterialService $materialService)
     {
-        //
+        return new MaterialResource($materialService->create($request));
     }
 
     /**
